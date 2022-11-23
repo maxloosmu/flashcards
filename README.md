@@ -1,11 +1,11 @@
 # flashcards requirements
-## First Page
+## First Page - CreateQuestions.vue
 - input field with create category button
 - list available categories of flashcards to learn from
 - learn button to open up second page
 - add questions and answers button to show 2 text fields
 - update button to update questions and answers to selected category
-## Second Page
+## Second Page - AskQuestions.vue
 - questions randomly sequenced
 - show one question at a time
 - input field with show answer button
