@@ -1,7 +1,9 @@
 <template>
   <button @click="logout">Logout</button>
   <br/>
-  <button @click="test">Test Yourself</button>
+  <button
+    v-if="this.$store.state.subjects.length>0"
+    @click="test">Test Yourself</button>
   <section v-if="!this.token">
     <p>name: {{ name }}</p>
     <p>email: {{ email }}</p>
@@ -24,12 +26,12 @@
     <div v-if="this.$store.state.subjects.length>0">
       <br/><br/>
       <label for="selectedSubject">Choose a Subject</label>
-      <div 
+      <div
         v-for="subject in this.$store.state.subjects"
         :key="subject"
       >
-        <input 
-          type="radio" 
+        <input
+          type="radio"
           name="selectedSubject"
           v-model="selectedSubject"
           :value="subject"
@@ -38,7 +40,7 @@
           <FontAwesomeIcon :icon="icon" />
         </button>
       </div>
-      <p>Selected: {{ selectedSubject }}</p>
+      <p>Selected Subject: {{ selectedSubject }}</p>
       <div v-if="!!selectedSubject">
         <label for="question">Enter a New Question</label>
         <br/>
@@ -66,7 +68,7 @@
   </div>
 </template>
 <script>
-// import store from '../store';
+import store from '../store';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -91,20 +93,13 @@ export default {
   },
   methods: {
     test() {
+      store.commit("updateSubjects");
       this.$router.replace('/test');
     },
     addQuestionAnswer() {
       if (this.selectedSubject!="" && this.question!="" && this.answer!="") {
-        fetch('https://flashcards-01-e4d7d-default-rtdb.asia-southeast1.firebasedatabase.app/subjects.json', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            subjects: this.$store.state.subjects,
-          }),
-        });
-        fetch('https://flashcards-01-e4d7d-default-rtdb.asia-southeast1.firebasedatabase.app/questions.json', {
+        store.commit("updateSubjects");
+        fetch('https://flashcards-01-e4d7d-default-rtdb.asia-southeast1.firebasedatabase.app/test.json', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -148,17 +143,12 @@ export default {
       localStorage.removeItem('response');
       this.$router.replace('/login');
     },
-    async loadSubjects() {
-      const response = await fetch('https://flashcards-01-e4d7d-default-rtdb.asia-southeast1.firebasedatabase.app/subjects.json');
-      const data = await response.json();
-      const indexedSubjects = data.subjects;
-      for (const item in indexedSubjects) {
-        this.$store.state.subjects.push(indexedSubjects[item]);
-      }
-    },
+
   },
   mounted() {
-    this.loadSubjects();
+    if (this.$store.state.subjects.length==0) {
+      store.commit("loadSubjects");
+    }
   },
 }
 </script>

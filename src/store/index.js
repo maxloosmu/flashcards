@@ -16,6 +16,7 @@ const store = createStore({
       email: "",
       password: "",
       subjects: [],
+      allSubjectQuestions: [],
     };
   },
   mutations,
