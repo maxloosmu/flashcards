@@ -48,7 +48,9 @@
 import store from '../store';
 
 export default {
-  emits: ['register-data'],
+  // components: {
+  //   CreateQuestions,
+  // },
   data() {
     return {
       name: {
@@ -139,7 +141,7 @@ export default {
         this.$store.state.error = e;
       }
 
-      // this.$router.replace('/work');
+      this.$router.replace('/create');
     },
 
 

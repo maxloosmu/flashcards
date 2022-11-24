@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import UserLogin from './pages/UserLogin.vue';
 import NotFound from './pages/NotFound.vue';
+import CreateQuestions from './pages/CreateQuestions.vue';
+import TestYourself from './pages/TestYourself.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -13,8 +15,16 @@ const router = createRouter({
     },
     {
       path: '/:notFound(.*)',
-      component: NotFound
-    }
+      component: NotFound,
+    },
+    {
+      path: '/create',
+      component: CreateQuestions,
+    },
+    {
+      path: '/test',
+      component: TestYourself,
+    },
   ]
 });
 

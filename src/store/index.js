@@ -15,7 +15,7 @@ const store = createStore({
       name: "",
       email: "",
       password: "",
-      questionSet: {},
+      subjects: [],
     };
   },
   mutations,
