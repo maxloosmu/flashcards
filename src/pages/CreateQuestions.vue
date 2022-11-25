@@ -3,7 +3,9 @@
   <br/>
   <button
     v-if="this.$store.state.subjects.length>0"
-    @click="test">Test Yourself</button>
+    @click="test">Test Yourself
+  </button>
+  <button @click="gotoUpload">File Upload</button>
   <section v-if="!this.token">
     <p>name: {{ name }}</p>
     <p>email: {{ email }}</p>
@@ -36,7 +38,7 @@
           v-model="selectedSubject"
           :value="subject"
         />{{ subject }}
-        <button @click="removeTask(subject)">
+        <button @click="removeSubject(subject)">
           <FontAwesomeIcon :icon="icon" />
         </button>
       </div>
@@ -51,6 +53,7 @@
           cols="50"
           v-model="question"
         />
+        <p>{{ question }}</p>
         <br/>
         <label for="answer">Enter a New Answer</label>
         <br/>
@@ -61,8 +64,9 @@
           cols="50"
           v-model="answer"
         />
+        <p>{{ answer }}</p>
         <br/>
-        <button @click="addQuestionAnswer">Add Q&A to Server</button>
+        <button @click="callAddQuestionAnswer">Add Q&A to Server</button>
       </div>
     </div>
   </div>
@@ -92,25 +96,17 @@ export default {
     };
   },
   methods: {
+    callAddQuestionAnswer() {
+      let payload = [this.selectedSubject, this.question, this.answer];
+      store.commit('addQuestionAnswer', payload);
+      alert(this.question);
+    },
+    gotoUpload() {
+      this.$router.replace('/upload');
+    },
     test() {
       store.commit("updateSubjects");
       this.$router.replace('/test');
-    },
-    addQuestionAnswer() {
-      if (this.selectedSubject!="" && this.question!="" && this.answer!="") {
-        store.commit("updateSubjects");
-        fetch('https://flashcards-01-e4d7d-default-rtdb.asia-southeast1.firebasedatabase.app/test.json', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            subject: this.selectedSubject,
-            question: this.question,
-            answer: this.answer,
-          }),
-        });
-      }
     },
     clearSubjectInput() {
       setTimeout(() => {
@@ -127,7 +123,7 @@ export default {
       this.$refs.subjectInput.value = "";
       // this.$refs.selectedSubject.focus();
     },
-    removeTask(subject) {
+    removeSubject(subject) {
       const index = this.$store.state.subjects.indexOf(subject);
       if (index > -1) {
         this.$store.state.subjects.splice(index, 1);

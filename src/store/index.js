@@ -17,6 +17,7 @@ const store = createStore({
       password: "",
       subjects: [],
       allSubjectQuestions: [],
+      txtFileContents: "",
     };
   },
   mutations,

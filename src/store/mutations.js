@@ -2,6 +2,8 @@
 //   return array.sort();
 //   // return [...array].sort(() => Math.random() - 0.5);
 // }
+// import { updateSubjects } from './mutations.js';
+import store from '../store';
 
 export default {
   // https://firebase.google.com/docs/reference/rest/auth
@@ -41,6 +43,27 @@ export default {
 
     window.location.reload();
   },
+  async addQuestionAnswer(state, payload) {
+    let [selectedSubject, currentQuestion, currentAnswer] = payload;
+    if (selectedSubject!="" && currentQuestion!="" && currentAnswer!="") {
+      store.commit("updateSubjects");
+      // this.updateSubjects(state);
+      const response = await fetch('https://flashcards-01-e4d7d-default-rtdb.asia-southeast1.firebasedatabase.app/test.json', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          subject: selectedSubject,
+          question: currentQuestion,
+          answer: currentAnswer,
+        }),
+      });
+      if (response.ok) {
+        alert('Question, Answer added to ' + selectedSubject);
+      }
+    }
+  },
   async loadSubjects(state) {
     const response = await fetch('https://flashcards-01-e4d7d-default-rtdb.asia-southeast1.firebasedatabase.app/subjects.json');
     const data = await response.json();
@@ -61,9 +84,8 @@ export default {
     state.allSubjectQuestions = state.allSubjectQuestions.sort();
     // alert(state.allSubjectQuestions);
   },
-
-  updateSubjects(state) {
-    fetch('https://flashcards-01-e4d7d-default-rtdb.asia-southeast1.firebasedatabase.app/subjects.json', {
+  async updateSubjects(state) {
+    const response = await fetch('https://flashcards-01-e4d7d-default-rtdb.asia-southeast1.firebasedatabase.app/subjects.json', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -72,5 +94,8 @@ export default {
         subjects: state.subjects,
       }),
     });
+    if (response.ok) {
+      // alert('Subjects updated.');
+    }
   }
 };

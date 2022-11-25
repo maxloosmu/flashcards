@@ -4,6 +4,7 @@ import UserLogin from './pages/UserLogin.vue';
 import NotFound from './pages/NotFound.vue';
 import CreateQuestions from './pages/CreateQuestions.vue';
 import TestYourself from './pages/TestYourself.vue';
+import FileUpload from './pages/FileUpload.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -24,6 +25,10 @@ const router = createRouter({
     {
       path: '/test',
       component: TestYourself,
+    },
+    {
+      path: '/upload',
+      component: FileUpload,
     },
   ]
 });
