@@ -1,7 +1,7 @@
-function shuffle(array) {
-  return array.sort();
-  // return [...array].sort(() => Math.random() - 0.5);
-}
+// function shuffle(array) {
+//   return array.sort();
+//   // return [...array].sort(() => Math.random() - 0.5);
+// }
 
 export default {
   // https://firebase.google.com/docs/reference/rest/auth
@@ -58,8 +58,8 @@ export default {
         state.allSubjectQuestions.push([Math.random(), data[item]]);
       }
     }
-    state.allSubjectQuestions = shuffle(state.allSubjectQuestions);
-    alert(state.allSubjectQuestions);
+    state.allSubjectQuestions = state.allSubjectQuestions.sort();
+    // alert(state.allSubjectQuestions);
   },
 
   updateSubjects(state) {
