@@ -90,9 +90,10 @@ export default {
       }
       else this.showHideButton = "Show Answer";
       if (this.count<=this.totalQuestions) {
-        this.answer = 
+        this.answer =
           this.$store.state.allSubjectQuestions[this.count-1][1]['answer'];
       }
+      else this.answer = "";
     },
     resetQuestions() {
       this.count = 0;
@@ -101,7 +102,7 @@ export default {
       this.toShow = false;
       this.showHideButton = "Show Answer";
       if (this.count<this.totalQuestions) {
-        this.question = 
+        this.question =
           this.$store.state.allSubjectQuestions[this.count][1]['question'];
       }
       else {
