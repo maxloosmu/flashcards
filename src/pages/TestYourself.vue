@@ -21,8 +21,8 @@
       <button @click="showQuestion">Show Question</button>
       <button @click="resetQuestions">Reset Questions</button>
       <button @click="showHideAnswer">{{ showHideButton }}</button>
-      <p v-html="question"></p>
-      <p v-html="answer" v-show="toShow"></p>
+      <p v-html="question" :style="{ width: setWidth + 'px' }"></p>
+      <p v-html="answer" v-show="toShow" :style="{ width: setWidth + 'px' }"></p>
     </div>
     <br/>
     <ol v-if="!!chosenSubject">
@@ -57,9 +57,17 @@ export default {
       answer: "",
       toShow: true,
       showHideButton: "Show Answer",
+      windowWidth: 500,
     }
   },
   computed: {
+    setWidth() {
+      if (this.windowWidth < 500) {
+        // alert(this.windowWidth);
+        return this.windowWidth;
+      }
+      else return 500;
+    },
     totalQuestions() {
       return this.$store.state.allSubjectQuestions.length;
     },
@@ -107,6 +115,15 @@ export default {
     gotoCreate() {
       this.$router.replace('/create');
     },
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+    },
+  },
+  created: function() {
+    window.addEventListener('resize', this.handleResize);
+  },
+  unmounted: function() {
+    window.removeEventListener('resize', this.handleResize);
   },
 }
 </script>
