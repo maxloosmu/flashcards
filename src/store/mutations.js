@@ -44,7 +44,7 @@ export default {
     window.location.reload();
   },
   async addQuestionAnswer(state, payload) {
-    let [selectedSubject, currentQuestion, currentAnswer] = payload;
+    let [selectedSubject, currentQuestion, currentAnswer, manualEntry] = payload;
     if (selectedSubject!="" && currentQuestion!="" && currentAnswer!="") {
       store.commit("updateSubjects");
       // this.updateSubjects(state);
@@ -59,7 +59,7 @@ export default {
           answer: currentAnswer,
         }),
       });
-      if (response.ok) {
+      if (response.ok && manualEntry) {
         alert('Question, Answer added to ' + selectedSubject);
       }
     }
@@ -82,7 +82,6 @@ export default {
       }
     }
     state.allSubjectQuestions = state.allSubjectQuestions.sort();
-    // alert(state.allSubjectQuestions);
   },
   async updateSubjects(state) {
     const response = await fetch('https://flashcards-01-e4d7d-default-rtdb.asia-southeast1.firebasedatabase.app/subjects.json', {

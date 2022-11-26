@@ -1,11 +1,15 @@
 <template>
   <button @click="logout">Logout</button>
-  <br/>
+  <br/><br/>
   <button
     v-if="this.$store.state.subjects.length>0"
     @click="test">Test Yourself
   </button>
-  <button @click="gotoUpload">File Upload</button>
+  <button 
+    v-if="!!this.token" 
+    @click="gotoUpload">File Upload
+  </button>
+  <br/><br/>
   <section v-if="!this.token">
     <p>name: {{ name }}</p>
     <p>email: {{ email }}</p>
@@ -97,9 +101,8 @@ export default {
   },
   methods: {
     callAddQuestionAnswer() {
-      let payload = [this.selectedSubject, this.question, this.answer];
+      let payload = [this.selectedSubject, this.question, this.answer, true];
       store.commit('addQuestionAnswer', payload);
-      alert(this.question);
     },
     gotoUpload() {
       this.$router.replace('/upload');
@@ -114,12 +117,18 @@ export default {
       }, 1000);
     },
     addSubject(event) {
-      this.$store.state.subjects.push(event.target.value);
+      let currentSubject = event.target.value;
+      if (!this.$store.state.subjects.includes(currentSubject)) {
+        this.$store.state.subjects.push(currentSubject);
+      }
       this.$refs.subjectInput.value = "";
       // this.$refs.selectedSubject.focus();
     },
     addSubjectButton() {
-      this.$store.state.subjects.push(this.$refs.subjectInput.value);
+      let currentSubject = this.$refs.subjectInput.value;
+      if (!this.$store.state.subjects.includes(currentSubject)) {
+        this.$store.state.subjects.push(currentSubject);
+      }
       this.$refs.subjectInput.value = "";
       // this.$refs.selectedSubject.focus();
     },

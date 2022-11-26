@@ -1,7 +1,8 @@
 <template>
   <div>
-    <button @click="goBack">Go back to create questions and answers</button>
-    <br/>
+    <button @click="gotoCreate">Go back to create questions and answers</button>
+    <button @click="gotoUpload">File Upload</button>
+    <br/><br/>
     <label for="chosenSubject">Choose a Subject</label>
     <div
       v-for="subject in this.$store.state.subjects"
@@ -24,7 +25,7 @@
       <p v-html="answer"></p>
     </div>
     <br/>
-    <ol>
+    <ol v-if="!!chosenSubject">
       <li v-html="currentItem(questionObject)" v-for="questionObject in this.$store.state.allSubjectQuestions" :key="questionObject">
       </li>
     </ol>
@@ -69,6 +70,9 @@ export default {
     },
   },
   methods: {
+    gotoUpload() {
+      this.$router.replace('/upload');
+    },
     showAnswer() {
       if (this.count<=this.totalQuestions) {
         this.answer = 
@@ -92,7 +96,7 @@ export default {
     currentItem(item) {
       return item[1]['question'];
     },
-    goBack() {
+    gotoCreate() {
       this.$router.replace('/create');
     },
   },
