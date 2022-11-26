@@ -18,6 +18,7 @@ const store = createStore({
       subjects: [],
       allSubjectQuestions: [],
       txtFileContents: "",
+      firebaseWebKey: process.env.VUE_APP_WEB_KEY,
     };
   },
   mutations,

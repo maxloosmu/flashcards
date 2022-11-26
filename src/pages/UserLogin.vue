@@ -86,6 +86,9 @@ export default {
         return "Login";
       }
     },
+    // webKey() {
+    //   return process.env.VUE_APP_WEB_KEY;
+    // },
     // errorString() {
     //   for (const property in this.$store.state.response) {
     //     if (property == "error") {
@@ -104,6 +107,8 @@ export default {
       this[input].isValid = true;
     },
     validateForm() {
+      // this.$store.state.firebaseWebKey = process.env.VUE_APP_WEB_KEY;
+      // alert(process.env.VUE_APP_WEB_KEY);
       this.formIsValid = true;
       if (this.name.val === '') {
         this.name.isValid = false;

@@ -10,10 +10,10 @@ export default {
   // curl 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAk1ueCLjDDWCNrt_23o5A4RCfeaYIlN6k' -H 'Content-Type: application/json' --data-binary '{"email":"maxlooo@yahoo.com","password":"PASSWORD","returnSecureToken":true}'
   async auth(state, mode) {
     let url =
-    'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key= AIzaSyA-lugHzomAhvtBdqAqv0OhtcTpxPAi1D0';
+    `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${state.firebaseWebKey}`;
     if (mode=="signup") {
       url =
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key= AIzaSyA-lugHzomAhvtBdqAqv0OhtcTpxPAi1D0';
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${state.firebaseWebKey}`;
     }
     const response = await fetch(url, {
       method: 'POST',
