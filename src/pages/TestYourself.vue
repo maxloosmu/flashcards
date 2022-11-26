@@ -20,9 +20,9 @@
       <br/>
       <button @click="showQuestion">Show Question</button>
       <button @click="resetQuestions">Reset Questions</button>
-      <button @click="showAnswer">Show Answer</button>
+      <button @click="showHideAnswer">{{ showHideButton }}</button>
       <p v-html="question"></p>
-      <p v-html="answer"></p>
+      <p v-html="answer" v-show="toShow"></p>
     </div>
     <br/>
     <ol v-if="!!chosenSubject">
@@ -55,6 +55,8 @@ export default {
       count: 0,
       question: "",
       answer: "",
+      toShow: true,
+      showHideButton: "Show Answer",
     }
   },
   computed: {
@@ -73,7 +75,12 @@ export default {
     gotoUpload() {
       this.$router.replace('/upload');
     },
-    showAnswer() {
+    showHideAnswer() {
+      this.toShow = !this.toShow;
+      if (this.toShow) {
+        this.showHideButton = "Hide Answer";
+      }
+      else this.showHideButton = "Show Answer";
       if (this.count<=this.totalQuestions) {
         this.answer = 
           this.$store.state.allSubjectQuestions[this.count-1][1]['answer'];
@@ -83,7 +90,8 @@ export default {
       this.count = 0;
     },
     showQuestion() {
-      this.answer = "";
+      this.toShow = false;
+      this.showHideButton = "Show Answer";
       if (this.count<this.totalQuestions) {
         this.question = 
           this.$store.state.allSubjectQuestions[this.count][1]['question'];
