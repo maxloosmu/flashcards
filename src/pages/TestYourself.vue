@@ -19,30 +19,17 @@
       Chosen Subject: {{ chosenSubject }}
       <br/>
       <button @click="showQuestion">Show Question</button>
+      <button @click="showHideQuestions">{{ showHideQuestionsButton }}</button>
       <button @click="resetQuestions">Reset Questions</button>
-      <button @click="showHideAnswer">{{ showHideButton }}</button>
+      <button @click="showHideAnswer">{{ showHideAnswerButton }}</button>
       <p v-html="question" :style="{ width: setWidth + 'px' }"></p>
-      <p v-html="answer" v-show="toShow" :style="{ width: setWidth + 'px' }"></p>
+      <p v-html="answer" v-show="toShowAnswer" :style="{ width: setWidth + 'px' }"></p>
     </div>
     <br/>
-    <ol v-if="!!chosenSubject">
+    <ol v-if="!!chosenSubject" v-show="toShowAllQuestions">
       <li v-html="currentItem(questionObject)" v-for="questionObject in this.$store.state.allSubjectQuestions" :key="questionObject">
       </li>
     </ol>
-    <!-- <div v-if="this.$store.state.allSubjectQuestions.length>0">
-      <br/><br/>
-      <label for="eachQuestion">Choose a Subject</label>
-      <div
-        v-for="item in this.$store.state.allSubjectQuestions"
-        :key="item"
-      >
-        <textarea
-          rows="4"
-          cols="50"
-          :value="currentItem(item)"
-        />
-      </div>
-    </div> -->
   </div>
 </template>
 <script>
@@ -55,8 +42,10 @@ export default {
       count: 0,
       question: "",
       answer: "",
-      toShow: true,
-      showHideButton: "Show Answer",
+      toShowAnswer: true,
+      toShowAllQuestions: false,
+      showHideAnswerButton: "Show Answer",
+      showHideQuestionsButton: "List All Questions",
       windowWidth: 500,
     }
   },
@@ -83,12 +72,19 @@ export default {
     gotoUpload() {
       this.$router.replace('/upload');
     },
-    showHideAnswer() {
-      this.toShow = !this.toShow;
-      if (this.toShow) {
-        this.showHideButton = "Hide Answer";
+    showHideQuestions() {
+      this.toShowAllQuestions = !this.toShowAllQuestions;
+      if (this.toShowAllQuestions) {
+        this.showHideQuestionsButton = "Hide All Questions";
       }
-      else this.showHideButton = "Show Answer";
+      else this.showHideQuestionsButton = "List All Questions";
+    },
+    showHideAnswer() {
+      this.toShowAnswer = !this.toShowAnswer;
+      if (this.toShowAnswer) {
+        this.showHideAnswerButton = "Hide Answer";
+      }
+      else this.showHideAnswerButton = "Show Answer";
       if (this.count<=this.totalQuestions) {
         this.answer =
           this.$store.state.allSubjectQuestions[this.count-1][1]['answer'];
@@ -99,8 +95,8 @@ export default {
       this.count = 0;
     },
     showQuestion() {
-      this.toShow = false;
-      this.showHideButton = "Show Answer";
+      this.toShowAnswer = false;
+      this.showHideAnswerButton = "Show Answer";
       if (this.count<this.totalQuestions) {
         this.question =
           this.$store.state.allSubjectQuestions[this.count][1]['question'];

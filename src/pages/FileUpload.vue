@@ -35,7 +35,7 @@ export default {
       let currentSubject = filename;
       let currentQuestion = "";
       let currentAnswer = "";
-      while (count<splitContent.length) {
+      while (count<splitContent.length && splitContent[count]!="") {
         currentQuestion = splitContent[count];
         currentAnswer = splitContent[count+1];
         count += 2
